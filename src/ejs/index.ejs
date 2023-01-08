@@ -1,0 +1,26 @@
+<% 
+let page = 'home' //ページ名
+;%>
+<%- include('./_template-part/_head',{page:page});%>
+<!-- 
+<%- include('./_template-part/_header',{page:page});%>
+-->
+<main class="main">
+  <ul class="nav">
+    <li data-nav="0">1</li>
+    <li data-nav="1">2</li>
+    <li data-nav="2">3</li>
+    <li data-nav="3">4</li>
+    <li data-nav="4">5</li>
+  </ul>
+  <div id="wrap">
+    <div class="n"><img src="./images/1.jpg" width="60"></div>
+    <div class="n n1"><img src="./images/2.jpg" width="60"></div>
+    <div class="n n2"><img src="./images/3.jpg" width="60"></div>
+    <div class="n n3"><img src="./images/4.jpg" width="60"></div>
+    <div class="n n4"><img src="./images/5.jpg" width="60"></div>
+  </div>
+  <div id="block"></div>
+  <div id="container"></div>
+</main>
+<%- include('./_template-part/_footer',{page:page}) ;%>
