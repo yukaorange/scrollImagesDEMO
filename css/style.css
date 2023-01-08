@@ -595,7 +595,10 @@ img {
 }
 @media screen and (max-width: 599px) {
   .nav {
-    visibility: hidden;
+    -webkit-transform-origin: 100% 0%;
+            transform-origin: 100% 0%;
+    -webkit-transform: scale(0.8);
+            transform: scale(0.8);
   }
 }
 .nav li {

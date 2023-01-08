@@ -8,7 +8,7 @@ const sketch = new Sketch({
 let attractMode = false;
 let attractTo = 0;
 let speed = 0;
-let position = 0;
+let position = 2;
 let rounded = 0;
 
 const block = document.querySelector("#block");
@@ -72,7 +72,11 @@ function raf() {
   let diff = rounded - position;
 
   if (attractMode) {
-    position += -(position - attractTo) * 0.01;
+    if ("ontouchstart" in window) {
+      position += -(position - attractTo) * 0.1;
+    } else {
+      position += -(position - attractTo) * 0.01;
+    }
   } else {
     position += Math.sign(diff) * Math.pow(Math.abs(diff), 0.7) * 0.015;
     wrap.style.transform = `translate(0,${-position * 100 + 50}px)`;
@@ -97,25 +101,55 @@ let rots = sketch.groups.map((e) => {
   return e.rotation;
 });
 
-nav.addEventListener("mouseenter", () => {
-  attractMode = true;
-  gsap.to(rots, {
-    x: -0.5,
-    y: 0,
-    z: 0,
+if ("ontouchstart" in window) {
+  nav.addEventListener("touchstart", () => {
+    attractMode = true;
+    gsap.to(rots, {
+      x: -0.5,
+      y: 0,
+      z: 0,
+    });
   });
-});
-nav.addEventListener("mouseleave", () => {
-  attractMode = false;
-  gsap.to(rots, {
-    x: -0.3,
-    y: -0.5,
-    z: -0.1,
+
+  nav.addEventListener("touchend", () => {
+    setTimeout(() => {
+      attractMode = false;
+    }, 2000);
+    gsap.to(rots, {
+      delay: 0.4,
+      duration: 0.4,
+      x: -0.3,
+      y: -0.5,
+      z: -0.1,
+    });
   });
-});
+} else {
+  nav.addEventListener("mouseenter", () => {
+    attractMode = true;
+    gsap.to(rots, {
+      x: -0.5,
+      y: 0,
+      z: 0,
+    });
+  });
+  nav.addEventListener("mouseleave", () => {
+    attractMode = false;
+    gsap.to(rots, {
+      x: -0.3,
+      y: -0.5,
+      z: -0.1,
+    });
+  });
+}
 
 navs.forEach((el) => {
-  el.addEventListener("mouseover", () => {
-    attractTo = Number(el.getAttribute("data-nav"));
-  });
+  if ("ontouchstart" in window) {
+    el.addEventListener("touchstart", () => {
+      attractTo = Number(el.getAttribute("data-nav"));
+    });
+  } else {
+    el.addEventListener("mouseover", () => {
+      attractTo = Number(el.getAttribute("data-nav"));
+    });
+  }
 });
